@@ -34,11 +34,11 @@ var getFeatures = function (array) {
   return randomFeatures;
 };
 
-var generateAnnouncementData = function (index) {
+var generateAnnouncementData = function () {
   var announcementData = {};
 
   announcementData.author = {
-    avatar: 'img/avatars/user0' + getRandomNumberInRange(1,8) + '.png'
+    avatar: 'img/avatars/user0' + getRandomNumberInRange(8, 1) + '.png'
   };
 
   announcementData.offer = {
