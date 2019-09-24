@@ -1,6 +1,5 @@
 'use strict';
 
-var AVATAR_TEMPLATE = 'img/avatars/user{{xx}}.png';
 var OFFER_TYPES = ['palace', 'flat', 'house', 'bungalo'];
 var OFFER_TIMES = ['12:00', '13:00', '14:00'];
 var OFFER_FEATURES = ['wifi', 'dishwasher', 'parking', 'washer', 'elevator', 'conditioner'];
