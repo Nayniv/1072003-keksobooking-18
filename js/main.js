@@ -39,7 +39,7 @@ var generateAnnouncementData = function (index) {
   var announcementData = {};
 
   announcementData.author = {
-    avatar: AVATAR_TEMPLATE.replace(/\{\{.+?\}\}/, '0' + (index + 1))
+    avatar: 'img/avatars/user0' + getRandomNumberInRange(1,8) + '.png'
   };
 
   announcementData.offer = {
