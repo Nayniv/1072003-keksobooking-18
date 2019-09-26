@@ -7,8 +7,10 @@ var OFFER_GUESTS_MAX = 10;
 var OFFER_ROOMS_MAX = 5;
 var OFFER_PRICE_MIN = 10000;
 var OFFER_PRICE_MAX = 50000;
-var OFFER_LOCATION_MIN = 130;
-var OFFER_LOCATION_MAX = 630;
+var OFFER_LOCATION_X_MIN = 50;
+var OFFER_LOCATION_X_MAX = 1100;
+var OFFER_LOCATION_Y_MIN = 130;
+var OFFER_LOCATION_Y_MAX = 630;
 var ANNOUNCEMENT_COUNT = 8;
 var pinTemplate = document.querySelector('#pin').content;
 
@@ -28,21 +30,21 @@ var getFeatures = function (array) {
   return randomFeatures;
 };
 
-var getLocation = function () {
-  var location = getRandomNumberInRange(OFFER_LOCATION_MAX, OFFER_LOCATION_MIN);
+var getLocation = function (max, min) {
+  var location = getRandomNumberInRange(max, min);
   return location;
 };
 
-var generateAnnouncementData = function () {
+var generateAnnouncementData = function (index) {
   var announcementData = {};
 
   announcementData.author = {
-    avatar: 'img/avatars/user0' + getRandomNumberInRange(9, 1) + '.png'
+    avatar: 'img/avatars/user0' + [index + 1] + '.png'
   };
 
   announcementData.location = {
-    x: getLocation(),
-    y: getLocation()
+    x: getLocation(OFFER_LOCATION_X_MAX, OFFER_LOCATION_X_MIN),
+    y: getLocation(OFFER_LOCATION_Y_MAX, OFFER_LOCATION_Y_MIN)
   };
 
   announcementData.offer = {
@@ -73,11 +75,9 @@ var generateAnnouncements = function () {
 
 /** @description Корректируем координаты расположения метки, на координаты, на которые указывает метка своим острым концом.
 Для этого надо учесть размеры элемента с меткой.
-
- * @param {Element} элемент с меткой.
+ * @param {element} элемент с меткой.
  * @param {number} координата x метки на карте.
  * @param {number} координата y метки на карте.
-
  * @return {number} координата x метки на карте и координата y метки на карте.
  */
 
