@@ -13,6 +13,8 @@ var OFFER_LOCATION_Y_MIN = 130;
 var OFFER_LOCATION_Y_MAX = 630;
 var ANNOUNCEMENT_COUNT = 8;
 var pinTemplate = document.querySelector('#pin').content;
+var cardTemplate = document.querySelector('#card').content;
+var OFFER_TYPE_NAMES = {'palace': 'Дворец', 'flat': 'Квартира', 'house': 'Дом', 'bungalo': 'Бунгало'};
 
 var getRandomNumberInRange = function (max, min) {
   return min + Math.floor(Math.random() * (max - min));
@@ -115,10 +117,40 @@ var generateMapPins = function (announcements) {
   return fragment;
 };
 
-var showMap = function showMap() {
+var showMap = function () {
   var announcements = generateAnnouncements(ANNOUNCEMENT_COUNT);
   document.querySelector('.map__pins').appendChild(generateMapPins(announcements));
+  createCards(announcements);
   document.querySelector('.map').classList.remove('map--faded');
+};
+
+var renderFeaturesList = function (featureList) {
+  var features = '';
+  for (var i = 0; i < featureList.length; i++) {
+    features += '<li class = "popup__feature popup__feature--' + featureList[i] + '"></li>';
+  }
+
+  return features;
+};
+
+var renderCard = function (card, announcementData) {
+  card.querySelector('.popup__title').textContent = announcementData.offer.title;
+  card.querySelector('.popup__text--address').textContent = announcementData.offer.address;
+  card.querySelector('.popup__text--price').textContent = announcementData.offer.price + '₽/ночь';
+  card.querySelector('.popup__type').textContent = OFFER_TYPE_NAMES[announcementData.offer.type];
+  card.querySelector('.popup__text--capacity').textContent = announcementData.offer.rooms + ' комнаты для ' + announcementData.offer.guests + ' гостей';
+  card.querySelector('.popup__text--time').textContent = 'Заезд после ' + announcementData.offer.checkin + ', выезд до' + announcementData.offer.checkout;
+  card.querySelector('.popup__features').innerHTML = renderFeaturesList(announcementData.offer.features);
+  card.querySelector('.popup__description').textContent = announcementData.offer.description;
+  card.querySelector('.popup__photos').innerHTML = '<img src="' + announcementData.offer.photos + '" width="45" height="40">';
+  card.querySelector('.popup__avatar').src = announcementData.author.avatar;
+
+  return card;
+};
+
+var createCards = function (announcements) {
+  var card = cardTemplate.cloneNode(true);
+  document.querySelector('.map').insertBefore(renderCard(card, announcements[0]), document.querySelector('.map__filters-container'));
 };
 
 showMap();
