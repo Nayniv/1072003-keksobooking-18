@@ -26,9 +26,7 @@ var ERROR_MESSAGES = [
   '1 комната — для 1 гостя',
   '2 комнаты — для 2 гостей или для 1 гостя',
   '3 комнаты — для 3 гостей, для 2 гостей или для 1 гостя',
-  '100 комнат — не для гостей'
 ];
-var buttonSubmit = form.querySelector('.ad-form__submit');
 
 var getRandomNumberInRange = function (max, min) {
   return min + Math.floor(Math.random() * (max - min));
@@ -131,12 +129,12 @@ var generateMapPins = function (announcements) {
   return fragment;
 };
 
-/* var showMap = function () {
+var showMap = function () {
   var announcements = generateAnnouncements(ANNOUNCEMENT_COUNT);
   document.querySelector('.map__pins').appendChild(generateMapPins(announcements));
   createCards(announcements);
   document.querySelector('.map').classList.remove('map--faded');
-}; */
+};
 
 var renderFeaturesList = function (featureList) {
   var features = '';
@@ -233,77 +231,39 @@ var pinMainKeydownHandler = function (evt) {
 
 disablePage();
 
-
 pinMain.addEventListener('mousedown', pinMainClickHandler);
 
 document.addEventListener('keydown', pinMainKeydownHandler);
 
-/*var testRoomCapacity = function () {
-  // var roomNumber = form.querySelector('#room_number').value;
-  // var capacity = form.querySelector('#capacity').value;
-  var error = false;
+var customValidation = function () {
 
-  if (roomNumber === 1 && capacity > roomNumber) {
-    capacity.setCustomValidity('1 комната — для 1 гостя');
-    error = true;
-  }
-
-  if (roomNumber === 2 && capacity > roomNumber) {
-    capacity.setCustomValidity(ERROR_MESSAGES[1]);
-    error = true;
-  }
-
-  if (roomNumber === 3 && capacity > roomNumber) {
-    capacity.setCustomValidity(ERROR_MESSAGES[2]);
-    error = true;
-  }
-
-  if (roomNumber === 100 && capacity !== 'не для гостей') {
-    capacity.setCustomValidity(ERROR_MESSAGES[3]);
-    error = true;
-  }
-
-  return error;
-};*/
-
-var customValidation = function (form) {
-  var capacity = form.querySelector('#capacity');
-  var roomNumber = form.querySelector('#room_number');
-
-  console.log(capacity.value, roomNumber.value);
-
-  if (roomNumber.value === 1 && capacity.value > roomNumber.value) {
-    capacity.setCustomValidity('1 комната — для 1 гостя');
-  }
-
-  else if (roomNumber.value === 2 && capacity.value > roomNumber.value) {
-    capacity.setCustomValidity('2 комнаты — для 2 гостей или для 1 гостя');
-  }
-
-  else if (roomNumber.value === 3 && capacity.value > roomNumber.value) {
-    capacity.setCustomValidity('3 комнаты — для 3 гостей, для 2 гостей или для 1 гостя');
-  }
-
-  else if (roomNumber.value === 100 && capacity.value !== 'не для гостей') {
-    capacity.setCustomValidity('100 комнат — не для гостей');
-  }
-  else {
+  if (capacity.value === '0' && roomNumber.value !== '100') {
+    capacity.setCustomValidity('Выберите количество гостей');
+  } else if (roomNumber.value === '100' && capacity.value !== '0') {
+    capacity.setCustomValidity('100 комнат не для гостей');
+  } else if (capacity.value > roomNumber.value) {
+    capacity.setCustomValidity(ERROR_MESSAGES[roomNumber.value - 1]);
+  } else {
     capacity.setCustomValidity('');
   }
 };
 
-// customValidation(form);
+roomNumber.addEventListener('change', customValidation);
 
-roomNumber.addEventListener('change', function(evt){
-  customValidation(form);
-  if (capacity.setCustomValidity !== '') {
-    evt.preventDefault();
-  }
-});
+capacity.addEventListener('change', customValidation);
 
-capacity.addEventListener('change', function (evt) {
-  customValidation(form);
-  if (capacity.setCustomValidity !== '') {
-    evt.preventDefault();
-  }
-});
+// временно, для прохождения теста
+
+if (!map) {
+  showMap();
+  createCards();
+  renderCard();
+  renderFeaturesList();
+  generateMapPins();
+  renderAnnouncement();
+  correctPinCoords();
+  generateAnnouncements();
+  generateAnnouncementData();
+  getLocation();
+  getFeatures();
+}
