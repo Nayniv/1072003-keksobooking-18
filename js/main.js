@@ -22,11 +22,12 @@ var mapFilters = document.querySelector('.map__filters');
 var capacity = form.querySelector('#capacity');
 var roomNumber = form.querySelector('#room_number');
 var ENTER_KEYCODE = 13;
-var ERROR_MESSAGES = [
-  '1 комната — для 1 гостя',
-  '2 комнаты — для 2 гостей или для 1 гостя',
-  '3 комнаты — для 3 гостей, для 2 гостей или для 1 гостя',
-];
+var ERROR_MESSAGES = {
+  rooms1: '1 комната — для 1 гостя',
+  rooms2: '2 комнаты — для 2 гостей или для 1 гостя',
+  rooms3: '3 комнаты — для 3 гостей, для 2 гостей или для 1 гостя',
+};
+var QUILL_HEIGHT = 22;
 
 var getRandomNumberInRange = function (max, min) {
   return min + Math.floor(Math.random() * (max - min));
@@ -165,14 +166,11 @@ var createCards = function (announcements) {
   document.querySelector('.map').insertBefore(renderCard(card, announcements[0]), document.querySelector('.map__filters-container'));
 };
 
-// showMap();
-
 var stateFormField = function (element, disable) {
   var fieldForm = form.querySelectorAll('input, button, select, textarea, fieldset');
-  var i;
 
   if (disable) {
-    for (i = 0; i < fieldForm.length; i++) {
+    for (var i = 0; i < fieldForm.length; i++) {
       fieldForm[i].disabled = true;
     }
   } else {
@@ -201,7 +199,7 @@ var disablePage = function () {
 var getPinMainCoordinate = function () {
   var rect = pinMain.getBoundingClientRect();
   var pinX = rect.width / 2;
-  var pinY = rect.height;
+  var pinY = rect.height + QUILL_HEIGHT;
 
   if (map.classList.contains('map--faded')) {
     pinY = rect.height / 2;
@@ -232,17 +230,15 @@ var pinMainKeydownHandler = function (evt) {
 disablePage();
 
 pinMain.addEventListener('mousedown', pinMainClickHandler);
-
 document.addEventListener('keydown', pinMainKeydownHandler);
 
 var customValidation = function () {
-
   if (capacity.value === '0' && roomNumber.value !== '100') {
     capacity.setCustomValidity('Выберите количество гостей');
   } else if (roomNumber.value === '100' && capacity.value !== '0') {
     capacity.setCustomValidity('100 комнат не для гостей');
   } else if (capacity.value > roomNumber.value) {
-    capacity.setCustomValidity(ERROR_MESSAGES[roomNumber.value - 1]);
+    capacity.setCustomValidity(ERROR_MESSAGES['rooms' + roomNumber.value]);
   } else {
     capacity.setCustomValidity('');
   }
