@@ -15,12 +15,12 @@ var ANNOUNCEMENT_COUNT = 8;
 var pinTemplate = document.querySelector('#pin').content;
 var cardTemplate = document.querySelector('#card').content;
 var OFFER_TYPE_NAMES = {palace: 'Дворец', flat: 'Квартира', house: 'Дом', bungalo: 'Бунгало'};
-var form = document.querySelector('.ad-form');
+var adForm = document.querySelector('.ad-form');
 var pinMain = document.querySelector('.map__pin--main');
 var map = document.querySelector('.map');
 var mapFilters = document.querySelector('.map__filters');
-var capacity = form.querySelector('#capacity');
-var roomNumber = form.querySelector('#room_number');
+var capacity = adForm.querySelector('#capacity');
+var roomNumber = adForm.querySelector('#room_number');
 var ENTER_KEYCODE = 13;
 var ERROR_MESSAGES = {
   rooms1: '1 комната — для 1 гостя',
@@ -167,7 +167,7 @@ var createCards = function (announcements) {
 };
 
 var stateFormField = function (element, disable) {
-  var fieldForm = form.querySelectorAll('input, button, select, textarea, fieldset');
+  var fieldForm = adForm.querySelectorAll('fieldset');
 
   if (disable) {
     for (var i = 0; i < fieldForm.length; i++) {
@@ -180,18 +180,19 @@ var stateFormField = function (element, disable) {
   }
 };
 
-var activePage = function () {
-  form.classList.remove('ad-form--disabled');
+var activeMap = function () {
+  adForm.classList.remove('ad-form--disabled');
   map.classList.remove('map--faded');
-  stateFormField(form);
+  stateFormField(adForm);
   stateFormField(mapFilters);
   setAddress();
+  showMap();
 };
 
-var disablePage = function () {
-  form.classList.add('ad-form--disabled');
+var disableMap = function () {
+  adForm.classList.add('ad-form--disabled');
   map.classList.add('map--faded');
-  stateFormField(form, true);
+  stateFormField(adForm, true);
   stateFormField(mapFilters, true);
   setAddress();
 };
@@ -218,16 +219,16 @@ var setAddress = function () {
 };
 
 var pinMainClickHandler = function () {
-  activePage();
+  activeMap();
 };
 
 var pinMainKeydownHandler = function (evt) {
   if (evt.keyCode === ENTER_KEYCODE) {
-    activePage();
+    activeMap();
   }
 };
 
-disablePage();
+disableMap();
 
 pinMain.addEventListener('mousedown', pinMainClickHandler);
 document.addEventListener('keydown', pinMainKeydownHandler);
@@ -247,19 +248,3 @@ var customValidation = function () {
 roomNumber.addEventListener('change', customValidation);
 
 capacity.addEventListener('change', customValidation);
-
-// временно, для прохождения теста
-
-if (!map) {
-  showMap();
-  createCards();
-  renderCard();
-  renderFeaturesList();
-  generateMapPins();
-  renderAnnouncement();
-  correctPinCoords();
-  generateAnnouncements();
-  generateAnnouncementData();
-  getLocation();
-  getFeatures();
-}
