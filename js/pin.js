@@ -35,12 +35,12 @@
     return fragment;
   };
 
-  var getPinMainCoordinate = function () {
+  var getPinMainCoordinate = function (element) {
     var rect = pinMain.getBoundingClientRect();
     var pinX = rect.width / 2;
     var pinY = rect.height + QUILL_HEIGHT;
 
-    if (window.pin.map.classList.contains('map--faded')) {
+    if (element.classList.contains('map--faded')) {
       pinY = rect.height / 2;
     }
 
@@ -50,19 +50,23 @@
     return {x: x, y: y};
   };
 
-  var setAddress = function () {
-    var coordinate = getPinMainCoordinate(window.pin.map);
+  var setAddress = function (element) {
+    var coordinate = getPinMainCoordinate(element);
     var address = document.querySelector('#address');
     address.value = coordinate.x + ', ' + coordinate.y;
   };
 
-  var pinMainClickHandler = function () {
-    window.map.activeMap();
+  var pinMainClickHandler = function (evt) {
+    window.map.active();
+
+    evt.currentTarget.removeEventListener('mousedown', pinMainClickHandler);
   };
 
   var pinMainKeydownHandler = function (evt) {
     if (evt.keyCode === ENTER_KEYCODE) {
-      window.map.activeMap();
+      window.map.active();
+
+      document.removeEventListener('keydown', pinMainKeydownHandler);
     }
   };
 
@@ -70,7 +74,6 @@
   document.addEventListener('keydown', pinMainKeydownHandler);
 
   window.pin = {
-    map: document.querySelector('.map'),
     generateMapPins: generateMapPins,
     setAddress: setAddress,
     correctPinCoords: correctPinCoords

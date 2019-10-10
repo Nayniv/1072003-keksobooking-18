@@ -18,22 +18,14 @@
   var getFeatures = function (array) {
     var randomFeatures = array.slice();
 
-    randomFeatures.length = getRandomNumberInRange(array.length, 1);
+    randomFeatures.length = window.util.getRandomNumberInRange(array.length, 1);
 
     return randomFeatures;
   };
 
   var getLocation = function (max, min) {
-    var location = getRandomNumberInRange(max, min);
+    var location = window.util.getRandomNumberInRange(max, min);
     return location;
-  };
-
-  var getRandomNumberInRange = function (max, min) {
-    return min + Math.floor(Math.random() * (max - min));
-  };
-
-  var getRandomElement = function (array) {
-    return array[getRandomNumberInRange(array.length, 0)];
   };
 
   var generateAnnouncementData = function (index) {
@@ -51,15 +43,15 @@
     announcementData.offer = {
       title: 'заголовок объявления',
       address: announcementData.location.x + ', ' + announcementData.location.y,
-      price: getRandomNumberInRange(OFFER_PRICE_MAX, OFFER_PRICE_MIN),
-      type: getRandomElement(OFFER_TYPES),
-      rooms: getRandomNumberInRange(OFFER_ROOMS_MAX, 1),
-      guests: getRandomNumberInRange(OFFER_GUESTS_MAX, 1),
-      checkin: getRandomElement(OFFER_TIMES),
-      checkout: getRandomElement(OFFER_TIMES),
+      price: window.util.getRandomNumberInRange(OFFER_PRICE_MAX, OFFER_PRICE_MIN),
+      type: window.util.getRandomElement(OFFER_TYPES),
+      rooms: window.util.getRandomNumberInRange(OFFER_ROOMS_MAX, 1),
+      guests: window.util.getRandomNumberInRange(OFFER_GUESTS_MAX, 1),
+      checkin: window.util.getRandomElement(OFFER_TIMES),
+      checkout: window.util.getRandomElement(OFFER_TIMES),
       features: getFeatures(OFFER_FEATURES),
       description: 'описание объявления',
-      photos: 'http://o0.github.io/assets/images/tokyo/hotel' + getRandomNumberInRange(4, 1) + '.jpg'
+      photos: 'http://o0.github.io/assets/images/tokyo/hotel' + window.util.getRandomNumberInRange(4, 1) + '.jpg'
     };
 
     return announcementData;
