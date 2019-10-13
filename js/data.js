@@ -66,22 +66,8 @@
     return announcements;
   };
 
-  var renderAnnouncement = function (announcementElement, announcementData) {
-    var mapPin = announcementElement.querySelector('.map__pin');
-    var pinImg = mapPin.querySelector('img');
-    var mapPinCoords = window.pin.correctPinCoords(mapPin, announcementData.location.x, announcementData.location.y);
-
-    mapPin.style.left = mapPinCoords.x + 'px';
-    mapPin.style.top = mapPinCoords.y + 'px';
-    pinImg.src = announcementData.author.avatar;
-    pinImg.alt = announcementData.offer.title;
-
-    return announcementElement;
-  };
-
   window.data = {
     generateAnnouncements: generateAnnouncements,
-    renderAnnouncement: renderAnnouncement,
     ANNOUNCEMENT_COUNT: ANNOUNCEMENT_COUNT,
     OFFER_TYPE_NAMES: OFFER_TYPE_NAMES
   };

@@ -2,6 +2,7 @@
 
 (function () {
   var cardTemplate = document.querySelector('#card').content;
+  var ESC_KEYCODE = 27;
 
   var renderFeaturesList = function (featureList) {
     var features = '';
@@ -12,7 +13,9 @@
     return features;
   };
 
-  var renderCard = function (card, announcementData) {
+  var renderCard = function (card) {
+    var announcementData = window.pin.pinClickHandler();
+
     card.querySelector('.popup__title').textContent = announcementData.offer.title;
     card.querySelector('.popup__text--address').textContent = announcementData.offer.address;
     card.querySelector('.popup__text--price').textContent = announcementData.offer.price + '₽/ночь';
@@ -27,29 +30,38 @@
     return card;
   };
 
-  var cardHidden = function (element) {
-    element.classList.add('hidden');
+  var cardHide = function (card) {
+    card.classList.add('hidden');
   };
 
-  var cardShow = function (announcements) {
-    createCards(announcements);
+  var cardShow = function () {
+    createCards();
   };
 
-  var createCards = function (announcements) {
+  var popupCloseKeydownHandler = function (evt) {
+    if (evt.keyCode === ESC_KEYCODE) {
+      cardHide();
+
+      document.removeEventListener('keydown', popupCloseKeydownHandler);
+    }
+  };
+
+  var createCards = function () {
     var card = cardTemplate.cloneNode(true);
     var popup = card.querySelector('.popup');
     var popupClose = card.querySelector('.popup__close');
 
     popupClose.addEventListener('click', function () {
-      cardHidden(popup);
+      cardHide(popup);
     });
 
-    document.querySelector('.map').insertBefore(renderCard(card, announcements[0]), document.querySelector('.map__filters-container'));
+    popupClose.addEventListener('keydown', popupCloseKeydownHandler);
 
+    document.querySelector('.map').insertBefore(renderCard(card), document.querySelector('.map__filters-container'));
   };
 
   window.card = {
-    hide: cardHidden,
+    hide: cardHide,
     show: cardShow
   };
 })();

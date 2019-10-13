@@ -10,18 +10,18 @@
     rooms3: '3 комнаты — для 3 гостей, для 2 гостей или для 1 гостя',
   };
 
-  var stateFormField = function (element, disable) {
+  var stateFormField = function (element, isDisabled) {
     var fieldForm = adForm.querySelectorAll('fieldset');
 
-    if (disable) {
-      for (var i = 0; i < fieldForm.length; i++) {
-        fieldForm[i].disabled = true;
-      }
-    } else {
-      for (i = 0; i < fieldForm.length; i++) {
-        fieldForm[i].disabled = false;
-      }
+    for (var i = 0; i < fieldForm.length; i++) {
+      fieldForm[i].disabled = isDisabled;
     }
+  };
+
+  var setAddress = function (element) {
+    var coordinate = window.pin.getPinMainCoordinate(element);
+    var address = document.querySelector('#address');
+    address.value = coordinate.x + ', ' + coordinate.y;
   };
 
   var customValidation = function () {
@@ -42,6 +42,7 @@
 
   window.form = {
     stateFormField: stateFormField,
-    adForm: adForm
+    adForm: adForm,
+    setAddress: setAddress
   };
 })();
