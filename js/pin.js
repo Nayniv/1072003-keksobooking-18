@@ -15,6 +15,7 @@
  * @param {number} координата y метки на карте.
  * @return {number} координата x метки на карте и координата y метки на карте.
  */
+
   var correctPinCoords = function (mapPin, x, y) {
     var rect = mapPin.getBoundingClientRect();
 
@@ -86,7 +87,9 @@
       var params = pin.getAttribute('data-params');
     }
 
-    return JSON.parse(params);
+    var data = JSON.parse(params);
+
+    window.card.cardShow(data);
   };
 
   pinMain.addEventListener('mousedown', pinMainClickHandler);
