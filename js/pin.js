@@ -3,8 +3,7 @@
 (function () {
   var pinTemplate = document.querySelector('#pin').content;
   var pinMain = document.querySelector('.map__pin--main');
-  var announcement = pinTemplate.cloneNode(true);
-  var pin = announcement.querySelector('button');
+  /*var pin = document.querySelector('.map__pin:not(.map__pin--main)');*/
   var QUILL_HEIGHT = 22;
   var ENTER_KEYCODE = 13;
 
@@ -43,7 +42,7 @@
 
     for (var i = 0; i < announcements.length; i++) {
       var announcement = pinTemplate.cloneNode(true);
-      var pin = announcement.querySelector('button');
+      var pin = announcement.querySelector('.map__pin');
       pin.setAttribute('data-params', JSON.stringify(announcements[i]));
       fragment.appendChild(renderPins(announcement, announcements[i]));
     }
@@ -81,15 +80,18 @@
   };
 
   var pinClickHandler = function (evt) {
-    var pinMap = evt.target.closest('.map__pin');
+    var pin = evt.target.closest('.map__pin:not(.map__pin--main)');
 
-    if (pinMap) {
+    if (pin) {
+        if (document.querySelector('.popup')) {
+          window.card.cardRemove();
+        }
       var params = pin.getAttribute('data-params');
+      var data = JSON.parse(params);
+      window.card.cardShow(data);
     }
 
-    var data = JSON.parse(params);
 
-    window.card.cardShow(data);
   };
 
   pinMain.addEventListener('mousedown', pinMainClickHandler);
