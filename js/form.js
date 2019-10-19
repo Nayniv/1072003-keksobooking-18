@@ -6,6 +6,7 @@
   var roomNumber = adForm.querySelector('#room_number');
   var price = adForm.querySelector('#price');
   var typeHousing = adForm.querySelector('#type');
+  var typeHousingValue = typeHousing.options[typeHousing.selectedIndex].value;
   var timeIn = adForm.querySelector('#timein');
   var timeOut = adForm.querySelector('#timeout');
   var ERROR_MESSAGES = {
@@ -54,19 +55,22 @@
 
   var validTimesField = function (evt) {
     var timeValue = evt.target.value;
-
-    if (timeIn.value !== timeValue || timeOut.value !== timeValue) {
-      timeIn.value = timeValue;
-      timeOut.value = timeValue;
-    }
+    timeIn.value = timeValue;
+    timeOut.value = timeValue;
   };
+
+  var setMinPrice = function () {
+    price.min = MIN_PRICES[typeHousingValue];
+    price.placeholder = MIN_PRICES[typeHousingValue];
+  };
+
+  setMinPrice(typeHousing);
 
   roomNumber.addEventListener('change', validRoomNumber);
 
   capacity.addEventListener('change', validRoomNumber);
 
-  typeHousing.addEventListener('change', validPriceHousing); /* эта проверка работает только если пользователь менял
-  значение поля тип жилья, как её исправить что бы она всегда работала, даже если пользователь не изменял значение typeHousing */
+  typeHousing.addEventListener('change', validPriceHousing);
 
   timeIn.addEventListener('change', validTimesField);
 

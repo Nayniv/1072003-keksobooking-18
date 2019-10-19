@@ -77,37 +77,11 @@
     }
   };
 
-  var pinClickHandler = function (evt) {
-    var pin = evt.target.closest('.map__pin:not(.map__pin--main)');
-
-    if (pin) {
-      if (document.querySelector('.popup')) {
-        window.card.cardRemove();
-      }
-      pin.classList.add('map__pin--active'); /* при клике на пин и открытии его карточки, пину должен быть доюавлен класс map__pin--active,
-      а как его убрать при закрытии карточки, или клике по другому пину? */
-      var params = pin.getAttribute('data-params');
-      var data = JSON.parse(params);
-      window.card.cardShow(data);
-    }
-  };
-
-  var pinKeydownHandler = function (evt) {
-    if (evt.keyCode === window.util.ENTER_KEYCODE) {
-      pinClickHandler();
-
-      document.removeEventListener('keydown', pinKeydownHandler);
-    }
-  };
-
-
   pinMain.addEventListener('mousedown', pinMainClickHandler);
   document.addEventListener('keydown', pinMainKeydownHandler);
-  document.addEventListener('keydown', pinKeydownHandler);
 
   window.pin = {
     generateMapPins: generateMapPins,
     getPinMainCoordinate: getPinMainCoordinate,
-    pinClickHandler: pinClickHandler
   };
 })();

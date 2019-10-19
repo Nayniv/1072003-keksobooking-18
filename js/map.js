@@ -27,7 +27,36 @@
     window.form.setAddress(map);
   };
 
-  map.addEventListener('click', window.pin.pinClickHandler);
+  var pinClickHandler = function (evt) {
+    var pin = evt.target.closest('.map__pin:not(.map__pin--main)');
+    var activePin = document.querySelector('.map__pin--active');
+
+    if (pin) {
+      if (document.querySelector('.popup')) {
+        window.card.remove();
+      }
+
+      if (activePin) {
+        activePin.classList.remove('map__pin--active');
+      }
+
+      pin.classList.add('map__pin--active');
+      var params = pin.getAttribute('data-params');
+      var data = JSON.parse(params);
+      window.card.show(data);
+    }
+  };
+
+  var pinKeydownHandler = function (evt) {
+    if (evt.keyCode === window.util.ENTER_KEYCODE) {
+      pinClickHandler();
+
+      document.removeEventListener('keydown', pinKeydownHandler);
+    }
+  };
+
+  map.addEventListener('click', pinClickHandler);
+  document.addEventListener('keydown', pinKeydownHandler);
 
   disableMap();
 
