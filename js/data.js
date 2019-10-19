@@ -69,6 +69,7 @@
   window.data = {
     generateAnnouncements: generateAnnouncements,
     ANNOUNCEMENT_COUNT: ANNOUNCEMENT_COUNT,
-    OFFER_TYPE_NAMES: OFFER_TYPE_NAMES
+    OFFER_TYPE_NAMES: OFFER_TYPE_NAMES,
+    OFFER_TIMES: OFFER_TIMES
   };
 })();

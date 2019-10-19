@@ -4,10 +4,20 @@
   var adForm = document.querySelector('.ad-form');
   var capacity = adForm.querySelector('#capacity');
   var roomNumber = adForm.querySelector('#room_number');
+  var price = adForm.querySelector('#price');
+  var typeHousing = adForm.querySelector('#type');
+  var timeIn = adForm.querySelector('#timein');
+  var timeOut = adForm.querySelector('#timeout');
   var ERROR_MESSAGES = {
     rooms1: '1 комната — для 1 гостя',
     rooms2: '2 комнаты — для 2 гостей или для 1 гостя',
-    rooms3: '3 комнаты — для 3 гостей, для 2 гостей или для 1 гостя',
+    rooms3: '3 комнаты — для 3 гостей, для 2 гостей или для 1 гостя'
+  };
+  var MIN_PRICES = {
+    bungalo: '0',
+    flat: '1000',
+    house: '5000',
+    palace: '10000'
   };
 
   var stateFormField = function (element, isDisabled) {
@@ -24,7 +34,7 @@
     address.value = coordinate.x + ', ' + coordinate.y;
   };
 
-  var customValidation = function () {
+  var validRoomNumber = function () {
     if (capacity.value === '0' && roomNumber.value !== '100') {
       capacity.setCustomValidity('Выберите количество гостей');
     } else if (roomNumber.value === '100' && capacity.value !== '0') {
@@ -36,9 +46,32 @@
     }
   };
 
-  roomNumber.addEventListener('change', customValidation);
+  var validPriceHousing = function (evt) {
+    var housingValue = evt.target.value;
+    price.min = MIN_PRICES[housingValue];
+    price.placeholder = MIN_PRICES[housingValue];
+  };
 
-  capacity.addEventListener('change', customValidation);
+  var validTimesField = function (evt) {
+    var timeValue = evt.target.value;
+
+    if (timeIn.value !== timeValue || timeOut.value !== timeValue) {
+      timeIn.value = timeValue;
+      timeOut.value = timeValue;
+    }
+  };
+
+  roomNumber.addEventListener('change', validRoomNumber);
+
+  capacity.addEventListener('change', validRoomNumber);
+
+  typeHousing.addEventListener('change', validPriceHousing); /* эта проверка работает только если пользователь менял
+  значение поля тип жилья, как её исправить что бы она всегда работала, даже если пользователь не изменял значение typeHousing */
+
+  timeIn.addEventListener('change', validTimesField);
+
+  timeOut.addEventListener('change', validTimesField);
+
 
   window.form = {
     stateFormField: stateFormField,

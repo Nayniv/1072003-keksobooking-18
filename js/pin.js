@@ -3,9 +3,7 @@
 (function () {
   var pinTemplate = document.querySelector('#pin').content;
   var pinMain = document.querySelector('.map__pin--main');
-  /*var pin = document.querySelector('.map__pin:not(.map__pin--main)');*/
   var QUILL_HEIGHT = 22;
-  var ENTER_KEYCODE = 13;
 
   /** @description Корректируем координаты расположения метки, на координаты, на которые указывает метка своим острым концом.
   Для этого надо учесть размеры элемента с меткой.
@@ -72,7 +70,7 @@
   };
 
   var pinMainKeydownHandler = function (evt) {
-    if (evt.keyCode === ENTER_KEYCODE) {
+    if (evt.keyCode === window.util.ENTER_KEYCODE) {
       window.map.active();
 
       document.removeEventListener('keydown', pinMainKeydownHandler);
@@ -83,23 +81,33 @@
     var pin = evt.target.closest('.map__pin:not(.map__pin--main)');
 
     if (pin) {
-        if (document.querySelector('.popup')) {
-          window.card.cardRemove();
-        }
+      if (document.querySelector('.popup')) {
+        window.card.cardRemove();
+      }
+      pin.classList.add('map__pin--active'); /* при клике на пин и открытии его карточки, пину должен быть доюавлен класс map__pin--active,
+      а как его убрать при закрытии карточки, или клике по другому пину? */
       var params = pin.getAttribute('data-params');
       var data = JSON.parse(params);
       window.card.cardShow(data);
     }
-
-
   };
+
+  var pinKeydownHandler = function (evt) {
+    if (evt.keyCode === window.util.ENTER_KEYCODE) {
+      pinClickHandler();
+
+      document.removeEventListener('keydown', pinKeydownHandler);
+    }
+  };
+
 
   pinMain.addEventListener('mousedown', pinMainClickHandler);
   document.addEventListener('keydown', pinMainKeydownHandler);
+  document.addEventListener('keydown', pinKeydownHandler);
 
   window.pin = {
     generateMapPins: generateMapPins,
     getPinMainCoordinate: getPinMainCoordinate,
-    pinClickHandler: pinClickHandler,
+    pinClickHandler: pinClickHandler
   };
 })();

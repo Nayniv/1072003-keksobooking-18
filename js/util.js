@@ -12,6 +12,8 @@
 
   window.util = {
     getRandomNumberInRange: getRandomNumberInRange,
-    getRandomElement: getRandomElement
+    getRandomElement: getRandomElement,
+    ESC_KEYCODE: 27,
+    ENTER_KEYCODE: 13
   };
 })();
