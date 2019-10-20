@@ -80,6 +80,42 @@
   pinMain.addEventListener('mousedown', pinMainClickHandler);
   document.addEventListener('keydown', pinMainKeydownHandler);
 
+  pinMain.addEventListener('mousedown', function (evt) {
+    var startCoords = {
+      x: evt.clientX,
+      y: evt.clientY
+    };
+
+    var onMouseMove = function (moveEvt) {
+      moveEvt.preventDefault();
+
+      var shift = {
+        x: startCoords.x - moveEvt.clientX,
+        y: startCoords.y - moveEvt.clientY
+      };
+
+      startCoords = {
+        x: moveEvt.clientX,
+        y: moveEvt.clientY
+      };
+
+      pinMain.style.top = (pinMain.offsetTop - shift.y) + 'px';
+      pinMain.style.left = (pinMain.offsetLeft - shift.x) + 'px';
+
+      window.form.setAddress(document.querySelector('.map'));
+    };
+
+    var onMouseUp = function (upEvt) {
+      upEvt.preventDefault();
+
+      document.removeEventListener('mousemove', onMouseMove);
+      document.removeEventListener('mouseup', onMouseUp);
+    };
+
+    document.addEventListener('mousemove', onMouseMove);
+    document.addEventListener('mouseup', onMouseUp);
+  });
+
   window.pin = {
     generateMapPins: generateMapPins,
     getPinMainCoordinate: getPinMainCoordinate,
