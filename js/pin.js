@@ -3,7 +3,19 @@
 (function () {
   var pinTemplate = document.querySelector('#pin').content;
   var pinMain = document.querySelector('.map__pin--main');
+  var map = document.querySelector('.map');
   var QUILL_HEIGHT = 22;
+  var PIN_HEIGHT = 87;
+  var PIN_WIDTH = 30;
+  var Y_COORD_MIN = 130;
+  var Y_COORD_MAX = 630;
+  var mapRect = map.getBoundingClientRect();
+  var limitsMap = {
+    top: Y_COORD_MIN - PIN_HEIGHT,
+    left: 0 - PIN_WIDTH,
+    right: mapRect.width - PIN_WIDTH,
+    bottom: Y_COORD_MAX - PIN_HEIGHT
+  };
 
   /** @description Корректируем координаты расположения метки, на координаты, на которые указывает метка своим острым концом.
   Для этого надо учесть размеры элемента с меткой.
@@ -86,27 +98,37 @@
       y: evt.clientY
     };
 
+    var isDrag = true;
+
     var onMouseMove = function (moveEvt) {
       moveEvt.preventDefault();
+      if (isDrag) {
+        var shift = {
+          x: startCoords.x - moveEvt.clientX,
+          y: startCoords.y - moveEvt.clientY
+        };
 
-      var shift = {
-        x: startCoords.x - moveEvt.clientX,
-        y: startCoords.y - moveEvt.clientY
-      };
+        startCoords = {
+          x: moveEvt.clientX,
+          y: moveEvt.clientY
+        };
 
-      startCoords = {
-        x: moveEvt.clientX,
-        y: moveEvt.clientY
-      };
+        pinMain.style.top = (pinMain.offsetTop - shift.y) + 'px';
+        pinMain.style.left = (pinMain.offsetLeft - shift.x) + 'px';
+      }
 
-      pinMain.style.top = (pinMain.offsetTop - shift.y) + 'px';
-      pinMain.style.left = (pinMain.offsetLeft - shift.x) + 'px';
+      if (parseInt(pinMain.style.top, 10) < limitsMap.top || parseInt(pinMain.style.top, 10) > limitsMap.bottom || parseInt(pinMain.style.left, 10) < limitsMap.left || parseInt(pinMain.style.left, 10) > limitsMap.right) {
+        isDrag = false;
+      }
 
-      window.form.setAddress(document.querySelector('.map'));
+      window.form.setAddress(map);
     };
 
     var onMouseUp = function (upEvt) {
       upEvt.preventDefault();
+
+      isDrag = false;
+      window.form.setAddress(map);
 
       document.removeEventListener('mousemove', onMouseMove);
       document.removeEventListener('mouseup', onMouseUp);
@@ -114,6 +136,7 @@
 
     document.addEventListener('mousemove', onMouseMove);
     document.addEventListener('mouseup', onMouseUp);
+
   });
 
   window.pin = {

@@ -47,10 +47,14 @@
     }
   };
 
+  var setMinPrice = function (elementValue) {
+    price.min = MIN_PRICES[elementValue];
+    price.placeholder = MIN_PRICES[elementValue];
+  };
+
   var validPriceHousing = function (evt) {
     var housingValue = evt.target.value;
-    price.min = MIN_PRICES[housingValue];
-    price.placeholder = MIN_PRICES[housingValue];
+    setMinPrice(housingValue);
   };
 
   var validTimesField = function (evt) {
@@ -59,12 +63,7 @@
     timeOut.value = timeValue;
   };
 
-  var setMinPrice = function () {
-    price.min = MIN_PRICES[typeHousingValue];
-    price.placeholder = MIN_PRICES[typeHousingValue];
-  };
-
-  setMinPrice(typeHousing);
+  setMinPrice(typeHousingValue);
 
   roomNumber.addEventListener('change', validRoomNumber);
 
