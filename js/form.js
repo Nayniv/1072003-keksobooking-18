@@ -29,8 +29,8 @@
     }
   };
 
-  var setAddress = function (element) {
-    var coordinate = window.pin.getPinMainCoordinate(element);
+  var setAddress = function () {
+    var coordinate = window.pin.getPinMainCoordinate();
     var address = document.querySelector('#address');
     address.value = coordinate.x + ', ' + coordinate.y;
   };

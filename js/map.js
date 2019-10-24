@@ -14,7 +14,7 @@
     document.querySelector('.map').classList.remove('map--faded');
     window.form.stateFormField(window.form.adForm, false);
     window.form.stateFormField(mapFilters, false);
-    window.form.setAddress(map);
+    window.form.setAddress();
     document.querySelector('.map').classList.remove('map--faded');
     showAnnouncements();
   };
@@ -24,7 +24,7 @@
     document.querySelector('.map').classList.add('map--faded');
     window.form.stateFormField(window.form.adForm, true);
     window.form.stateFormField(mapFilters, true);
-    window.form.setAddress(map);
+    window.form.setAddress();
   };
 
   var pinClickHandler = function (evt) {
