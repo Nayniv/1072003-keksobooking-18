@@ -14,7 +14,7 @@
     top: Y_COORD_MIN - PIN_HEIGHT,
     left: 0 - PIN_HALF_WIDTH,
     right: mapRect.width - PIN_HALF_WIDTH,
-    bottom: Y_COORD_MAX - PIN_HEIGHT
+    bottom: Y_COORD_MAX
   };
 
   /** @description Корректируем координаты расположения метки, на координаты, на которые указывает метка своим острым концом.

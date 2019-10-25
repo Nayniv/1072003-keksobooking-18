@@ -14,6 +14,8 @@
   var OFFER_LOCATION_Y_MAX = 630;
   var OFFER_TYPE_NAMES = {palace: 'Дворец', flat: 'Квартира', house: 'Дом', bungalo: 'Бунгало'};
   var ANNOUNCEMENT_COUNT = 8;
+  var SMALL_PIN_HALF_WIDTH = 25;
+  var SMALL_PIN_HEIGHT = 70;
 
   var getFeatures = function (array) {
     var randomFeatures = array.slice();
@@ -42,7 +44,7 @@
 
     announcementData.offer = {
       title: 'заголовок объявления',
-      address: announcementData.location.x + ', ' + announcementData.location.y,
+      address: (announcementData.location.x + SMALL_PIN_HALF_WIDTH) + ', ' + (announcementData.location.y + SMALL_PIN_HEIGHT),
       price: window.util.getRandomNumberInRange(OFFER_PRICE_MAX, OFFER_PRICE_MIN),
       type: window.util.getRandomElement(OFFER_TYPES),
       rooms: window.util.getRandomNumberInRange(OFFER_ROOMS_MAX, 1),
