@@ -9,6 +9,16 @@
     document.querySelector('.map__pins').appendChild(window.pin.generateMapPins(announcementData));
   };
 
+  var onError = function (message) {
+    console.error(message);
+  };
+
+  var onSuccess = function (data) {
+    console.log(data);
+  };
+
+
+
   var activeMap = function () {
     window.form.adForm.classList.remove('ad-form--disabled');
     document.querySelector('.map').classList.remove('map--faded');
@@ -17,6 +27,7 @@
     window.form.setAddress();
     document.querySelector('.map').classList.remove('map--faded');
     showAnnouncements();
+    window.load(onSuccess, onError);
   };
 
   var disableMap = function () {

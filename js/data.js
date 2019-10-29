@@ -17,6 +17,8 @@
   var SMALL_PIN_HALF_WIDTH = 25;
   var SMALL_PIN_HEIGHT = 70;
 
+
+
   var getFeatures = function (array) {
     var randomFeatures = array.slice();
 
@@ -30,12 +32,23 @@
     return location;
   };
 
+/*var onError = function (message) {
+    console.error(message);
+  };
+
+  var onSuccess = function (data) {
+    console.log(data);
+
+  window.load(onSuccess, onError);
+
+  };*/
+
   var generateAnnouncementData = function (index) {
     var announcementData = {};
 
     announcementData.author = {
-      avatar: 'img/avatars/user0' + [index + 1] + '.png'
-    };
+      avatar: 'img/avatars/user0' + [index + 1] + '.png' // я так понимаю что нужно эти все моки заменить данными полученными из window.load(onSuccess)
+    };  // но я никак не соображу каким образом это сделать) как сюда передать загруженные данные? так это еще и циклом надо к 8 пинам
 
     announcementData.location = {
       x: getLocation(OFFER_LOCATION_X_MAX, OFFER_LOCATION_X_MIN),
@@ -59,6 +72,7 @@
     return announcementData;
   };
 
+
   var generateAnnouncements = function () {
     var announcements = [];
     for (var i = 0; i < ANNOUNCEMENT_COUNT; i++) {
@@ -67,6 +81,8 @@
 
     return announcements;
   };
+
+
 
   window.data = {
     generateAnnouncements: generateAnnouncements,

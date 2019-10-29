@@ -12,6 +12,35 @@
     return features;
   };
 
+  /*var CALLBACK_NAME = '__jsonpCallback';
+  var DATA_URL = 'https://js.dump.academy/keksobooking/data';
+
+  var renderItem = function (item) {
+  var dataDiv = document.createElement('div');
+  dataDiv.textContent = item.name;
+  document.body.appendChild(dataDiv);
+};
+
+window[CALLBACK_NAME] = function (data) {
+  var announcementData = {};
+
+  for(var i = 0; i < data.length; i++) {
+    announcementData = data[i];
+
+    console.log(announcementData);
+  }
+
+  return announcementData;
+};
+
+var loader = document.createElement('script');
+loader.src = DATA_URL + '?callback=' + CALLBACK_NAME;
+
+loader.addEventListener('error', function () {
+  document.body.textContent = 'Произошла ошибка при загрузке данных';
+});
+document.body.append(loader);*/
+
   var renderCard = function (element, announcementData) {
     element.querySelector('.popup__title').textContent = announcementData.offer.title;
     element.querySelector('.popup__text--address').textContent = announcementData.offer.address;
