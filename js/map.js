@@ -4,17 +4,17 @@
   var mapFilters = document.querySelector('.map__filters');
   var map = document.querySelector('.map');
 
+  var showAnnouncements = function (data) {
+    document.querySelector('.map__pins').appendChild(data); // тут не надо было оставить window.pin.generateMapPins()?
+  };
+
   var onError = function (message) {
     console.error(message);
   };
 
   var onSuccess = function (data) {
     window.defaultData = data;
-    console.log(data);
-  };
-
-  var showAnnouncements = function (data) {
-    document.querySelector('.map__pins').appendChild(data);
+    showAnnouncements(data); // тут showAnnouncements?)
   };
 
   var activeMap = function () {
@@ -25,7 +25,6 @@
     window.form.setAddress();
     document.querySelector('.map').classList.remove('map--faded');
     window.backend.load(onSuccess, onError);
-    showAnnouncements(window.defaultData);
   };
 
   var disableMap = function () {
