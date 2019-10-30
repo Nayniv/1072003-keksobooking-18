@@ -2,22 +2,20 @@
 
 (function () {
   var mapFilters = document.querySelector('.map__filters');
-  var announcementData = window.data.generateAnnouncements(window.data.ANNOUNCEMENT_COUNT);
   var map = document.querySelector('.map');
-
-  var showAnnouncements = function () {
-    document.querySelector('.map__pins').appendChild(window.pin.generateMapPins(announcementData));
-  };
 
   var onError = function (message) {
     console.error(message);
   };
 
   var onSuccess = function (data) {
+    window.defaultData = data;
     console.log(data);
   };
 
-
+  var showAnnouncements = function (data) {
+    document.querySelector('.map__pins').appendChild(data);
+  };
 
   var activeMap = function () {
     window.form.adForm.classList.remove('ad-form--disabled');
@@ -26,8 +24,8 @@
     window.form.stateFormField(mapFilters, false);
     window.form.setAddress();
     document.querySelector('.map').classList.remove('map--faded');
-    showAnnouncements();
-    window.load(onSuccess, onError);
+    window.backend.load(onSuccess, onError);
+    showAnnouncements(window.defaultData);
   };
 
   var disableMap = function () {

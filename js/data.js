@@ -17,75 +17,29 @@
   var SMALL_PIN_HALF_WIDTH = 25;
   var SMALL_PIN_HEIGHT = 70;
 
-
-
-  var getFeatures = function (array) {
-    var randomFeatures = array.slice();
-
-    randomFeatures.length = window.util.getRandomNumberInRange(array.length, 1);
-
-    return randomFeatures;
-  };
-
-  var getLocation = function (max, min) {
-    var location = window.util.getRandomNumberInRange(max, min);
-    return location;
-  };
-
-/*var onError = function (message) {
+  /*var onError = function (message) {
     console.error(message);
   };
 
   var onSuccess = function (data) {
+    window.defaultData = data;
     console.log(data);
-
-  window.load(onSuccess, onError);
-
-  };*/
-
-  var generateAnnouncementData = function (index) {
-    var announcementData = {};
-
-    announcementData.author = {
-      avatar: 'img/avatars/user0' + [index + 1] + '.png' // я так понимаю что нужно эти все моки заменить данными полученными из window.load(onSuccess)
-    };  // но я никак не соображу каким образом это сделать) как сюда передать загруженные данные? так это еще и циклом надо к 8 пинам
-
-    announcementData.location = {
-      x: getLocation(OFFER_LOCATION_X_MAX, OFFER_LOCATION_X_MIN),
-      y: getLocation(OFFER_LOCATION_Y_MAX, OFFER_LOCATION_Y_MIN)
-    };
-
-    announcementData.offer = {
-      title: 'заголовок объявления',
-      address: (announcementData.location.x + SMALL_PIN_HALF_WIDTH) + ', ' + (announcementData.location.y + SMALL_PIN_HEIGHT),
-      price: window.util.getRandomNumberInRange(OFFER_PRICE_MAX, OFFER_PRICE_MIN),
-      type: window.util.getRandomElement(OFFER_TYPES),
-      rooms: window.util.getRandomNumberInRange(OFFER_ROOMS_MAX, 1),
-      guests: window.util.getRandomNumberInRange(OFFER_GUESTS_MAX, 1),
-      checkin: window.util.getRandomElement(OFFER_TIMES),
-      checkout: window.util.getRandomElement(OFFER_TIMES),
-      features: getFeatures(OFFER_FEATURES),
-      description: 'описание объявления',
-      photos: 'http://o0.github.io/assets/images/tokyo/hotel' + window.util.getRandomNumberInRange(4, 1) + '.jpg'
-    };
-
-    return announcementData;
   };
 
+  window.backend.load(onSuccess, onError);*/
 
-  var generateAnnouncements = function () {
+
+  /*var generateAnnouncements = function () {
     var announcements = [];
     for (var i = 0; i < ANNOUNCEMENT_COUNT; i++) {
-      announcements.push(generateAnnouncementData(i));
+      announcements.push;
     }
 
     return announcements;
-  };
-
-
+  };*/
 
   window.data = {
-    generateAnnouncements: generateAnnouncements,
+    //generateAnnouncements: generateAnnouncements,
     ANNOUNCEMENT_COUNT: ANNOUNCEMENT_COUNT,
     OFFER_TYPE_NAMES: OFFER_TYPE_NAMES,
     OFFER_TIMES: OFFER_TIMES
