@@ -4,33 +4,25 @@
   var mapFilters = document.querySelector('.map__filters');
   var map = document.querySelector('.map');
   var main = document.querySelector('main');
-  var errorTemplate = document.querySelector('#error').content;
 
   var showAnnouncements = function (data) {
     document.querySelector('.map__pins').appendChild(window.pin.generateMapPins(data));
   };
 
   var buttonErrorClickHandler = function () {
-    document.querySelector('.error').remove();
-
-    document.removeEventListener('mousedown', buttonErrorClickHandler);
+    window.errorMessage.close();
   };
 
   var buttonErrorKeydownHandler = function (evt) {
     if (evt.keyCode === window.util.ESC_KEYCODE) {
-      buttonErrorClickHandler();
-
-      document.removeEventListener('keydown', buttonErrorKeydownHandler);
+      window.errorMessage.close();
     }
   };
 
   var onError = function (message) {
-    var error = errorTemplate.cloneNode(true);
-    error.querySelector('.error__message').textContent = message;
+    main.appendChild(window.errorMessage.show(message));
 
-    main.appendChild(error);
-
-    document.querySelector('.error__button').addEventListener('click', buttonErrorClickHandler);
+    document.querySelector('.error__button').addEventListener('click', buttonErrorClickHandler); // почему-то с error.querySelector('.error__button')... не работает
     document.addEventListener('keydown', buttonErrorKeydownHandler);
   };
 
