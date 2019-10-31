@@ -3,21 +3,35 @@
 (function () {
   var mapFilters = document.querySelector('.map__filters');
   var map = document.querySelector('.map');
-  var errorTemplate = document.querySelector('#error').content
+  var main = document.querySelector('main');
+  var errorTemplate = document.querySelector('#error').content;
 
   var showAnnouncements = function (data) {
     document.querySelector('.map__pins').appendChild(window.pin.generateMapPins(data));
   };
 
+  var buttonErrorClickHandler = function () {
+    document.querySelector('.error').remove();
+
+    document.removeEventListener('mousedown', buttonErrorClickHandler);
+  };
+
+  var buttonErrorKeydownHandler = function (evt) {
+    if (evt.keyCode === window.util.ESC_KEYCODE) {
+      buttonErrorClickHandler();
+
+      document.removeEventListener('keydown', buttonErrorKeydownHandler);
+    }
+  };
+
   var onError = function (message) {
-    var fragment = document.createDocumentFragment();
     var error = errorTemplate.cloneNode(true);
-    error.querySelector('.error__message').textContent = message; //не получается вывести окно с ошибкой через template id="error" только в консоль выводится)
+    error.querySelector('.error__message').textContent = message;
 
-    fragment.appendChild(error);
-    console.error(message);
+    main.appendChild(error);
 
-    return fragment;
+    document.querySelector('.error__button').addEventListener('click', buttonErrorClickHandler);
+    document.addEventListener('keydown', buttonErrorKeydownHandler);
   };
 
   var onSuccess = function (data) {
