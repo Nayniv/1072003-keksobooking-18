@@ -30,14 +30,14 @@
 
   var load = function (onLoad, onError) {
     var xhr = requestGenerator(onLoad, onError);
-    xhr.open = ('GET', DATA_URL);
-    xhr.send;
+    xhr.open('GET', DATA_URL);
+    xhr.send();
   };
 
   var save = function (data, onLoad, onError) {
     var xhr = requestGenerator(onLoad, onError);
-    xhr.open = ('POST', URL);
-    xhr.send = data;
+    xhr.open('POST', URL);
+    xhr.send(data);
   };
 
   window.backend = {

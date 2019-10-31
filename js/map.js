@@ -3,18 +3,26 @@
 (function () {
   var mapFilters = document.querySelector('.map__filters');
   var map = document.querySelector('.map');
+  var errorTemplate = document.querySelector('#error').content
 
   var showAnnouncements = function (data) {
-    document.querySelector('.map__pins').appendChild(data); // тут не надо было оставить window.pin.generateMapPins()?
+    document.querySelector('.map__pins').appendChild(window.pin.generateMapPins(data));
   };
 
   var onError = function (message) {
+    var fragment = document.createDocumentFragment();
+    var error = errorTemplate.cloneNode(true);
+    error.querySelector('.error__message').textContent = message; //не получается вывести окно с ошибкой через template id="error" только в консоль выводится)
+
+    fragment.appendChild(error);
     console.error(message);
+
+    return fragment;
   };
 
   var onSuccess = function (data) {
     window.defaultData = data;
-    showAnnouncements(data); // тут showAnnouncements?)
+    showAnnouncements(data);
   };
 
   var activeMap = function () {
