@@ -9,21 +9,8 @@
     document.querySelector('.map__pins').appendChild(window.pin.generateMapPins(data));
   };
 
-  var buttonErrorClickHandler = function () {
-    window.errorMessage.close();
-  };
-
-  var buttonErrorKeydownHandler = function (evt) {
-    if (evt.keyCode === window.util.ESC_KEYCODE) {
-      window.errorMessage.close();
-    }
-  };
-
   var onError = function (message) {
     main.appendChild(window.errorMessage.show(message));
-
-    document.querySelector('.error__button').addEventListener('click', buttonErrorClickHandler); // почему-то с error.querySelector('.error__button')... не работает
-    document.addEventListener('keydown', buttonErrorKeydownHandler);
   };
 
   var onSuccess = function (data) {
