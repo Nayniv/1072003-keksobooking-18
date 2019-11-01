@@ -18,14 +18,14 @@
     error.querySelector('.error__message').textContent = message;
 
     error.querySelector('.error__button').addEventListener('click', buttonErrorClickHandler);
-    error.querySelector('.error__button').removeEventListener('mousedown', buttonErrorClickHandler);
     document.addEventListener('keydown', buttonErrorKeydownHandler);
 
     return error;
   };
 
   var close = function () {
-    document.removeEventListener('mousedown', buttonErrorClickHandler);
+    var error = document.querySelector('.error');
+    error.querySelector('.error__button').removeEventListener('click', buttonErrorClickHandler);
     document.removeEventListener('keydown', buttonErrorKeydownHandler);
     document.querySelector('.error').remove();
   };
