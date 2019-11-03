@@ -2,11 +2,20 @@
 
 (function () {
   var mapFilters = document.querySelector('.map__filters');
-  var announcementData = window.data.generateAnnouncements(window.data.ANNOUNCEMENT_COUNT);
   var map = document.querySelector('.map');
+  var main = document.querySelector('main');
 
-  var showAnnouncements = function () {
-    document.querySelector('.map__pins').appendChild(window.pin.generateMapPins(announcementData));
+  var showAnnouncements = function (data) {
+    document.querySelector('.map__pins').appendChild(window.pin.generateMapPins(data));
+  };
+
+  var onError = function (message) {
+    main.appendChild(window.errorMessage.show(message));
+  };
+
+  var onSuccess = function (data) {
+    window.defaultData = data;
+    showAnnouncements(data);
   };
 
   var activeMap = function () {
@@ -16,7 +25,7 @@
     window.form.stateFormField(mapFilters, false);
     window.form.setAddress();
     document.querySelector('.map').classList.remove('map--faded');
-    showAnnouncements();
+    window.backend.load(onSuccess, onError);
   };
 
   var disableMap = function () {
