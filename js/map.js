@@ -10,12 +10,16 @@
   };
 
   var onError = function (message) {
-    main.appendChild(window.errorMessage.show(message));
+    main.appendChild(window.showMessage.showError(message));
   };
 
   var onSuccess = function (data) {
     window.defaultData = data;
     showAnnouncements(data);
+  };
+
+  var onSave = function () {
+    main.appendChild(window.showMessage.showSucces());
   };
 
   var activeMap = function () {
@@ -66,6 +70,17 @@
 
   map.addEventListener('click', pinClickHandler);
   document.addEventListener('keydown', pinKeydownHandler);
+
+  window.form.adForm.addEventListener('submit', function (evt) {
+    var pins = map.querySelectorAll('.map__pin:not(.map__pin--main)');
+    window.backend.save(new FormData(window.form.adForm), onSave, onError);
+    evt.preventDefault();
+    window.form.adForm.reset();
+    for (var i = 0; i < pins.length; i++) {
+      pins[i].remove();
+    }
+    disableMap();
+  });
 
   disableMap();
 

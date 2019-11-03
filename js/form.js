@@ -75,7 +75,6 @@
 
   timeOut.addEventListener('change', validTimesField);
 
-
   window.form = {
     stateFormField: stateFormField,
     adForm: adForm,
