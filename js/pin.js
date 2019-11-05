@@ -75,17 +75,13 @@
     return {x: x, y: y};
   };
 
-  var pinMainClickHandler = function (evt) {
+  var pinMainClickHandler = function () {
     window.map.active();
-
-    evt.currentTarget.removeEventListener('mousedown', pinMainClickHandler);
   };
 
   var pinMainKeydownHandler = function (evt) {
     if (evt.keyCode === window.util.ENTER_KEYCODE) {
       window.map.active();
-
-      document.removeEventListener('keydown', pinMainKeydownHandler);
     }
   };
 
