@@ -56,7 +56,7 @@
     }
   };
 
-  window.showMessage = {
+  window.messages = {
     showError: showError,
     showSucces: showSucces,
     close: close

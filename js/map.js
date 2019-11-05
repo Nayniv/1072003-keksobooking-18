@@ -4,13 +4,14 @@
   var mapFilters = document.querySelector('.map__filters');
   var map = document.querySelector('.map');
   var main = document.querySelector('main');
+  var mapIsActive = false;
 
   var showAnnouncements = function (data) {
     document.querySelector('.map__pins').appendChild(window.pin.generateMapPins(data));
   };
 
   var onError = function (message) {
-    main.appendChild(window.showMessage.showError(message));
+    main.appendChild(window.messages.showError(message));
   };
 
   var onSuccess = function (data) {
@@ -19,20 +20,23 @@
   };
 
   var onSave = function () {
-    main.appendChild(window.showMessage.showSucces());
+    main.appendChild(window.messages.showSucces());
   };
 
   var activeMap = function () {
-    window.form.adForm.classList.remove('ad-form--disabled');
-    document.querySelector('.map').classList.remove('map--faded');
-    window.form.stateFormField(window.form.adForm, false);
-    window.form.stateFormField(mapFilters, false);
-    window.form.setAddress();
-    document.querySelector('.map').classList.remove('map--faded');
-    window.backend.load(onSuccess, onError);
+    if (!mapIsActive) {
+      window.form.adForm.classList.remove('ad-form--disabled');
+      document.querySelector('.map').classList.remove('map--faded');
+      window.form.stateFormField(window.form.adForm, false);
+      window.form.stateFormField(mapFilters, false);
+      window.form.setAddress();
+      window.backend.load(onSuccess, onError);
+      mapIsActive = true;
+    }
   };
 
   var disableMap = function () {
+    mapIsActive = false;
     window.form.adForm.classList.add('ad-form--disabled');
     document.querySelector('.map').classList.add('map--faded');
     window.form.stateFormField(window.form.adForm, true);
@@ -68,9 +72,6 @@
     }
   };
 
-  map.addEventListener('click', pinClickHandler);
-  document.addEventListener('keydown', pinKeydownHandler);
-
   window.form.adForm.addEventListener('submit', function (evt) {
     var pins = map.querySelectorAll('.map__pin:not(.map__pin--main)');
     window.backend.save(new FormData(window.form.adForm), onSave, onError);
@@ -79,8 +80,12 @@
     for (var i = 0; i < pins.length; i++) {
       pins[i].remove();
     }
+    window.card.remove();
     disableMap();
   });
+
+  map.addEventListener('click', pinClickHandler);
+  document.addEventListener('keydown', pinKeydownHandler);
 
   disableMap();
 
