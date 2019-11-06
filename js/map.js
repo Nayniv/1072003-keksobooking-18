@@ -5,6 +5,7 @@
   var map = document.querySelector('.map');
   var main = document.querySelector('main');
   var mapIsActive = false;
+  var pins = map.querySelectorAll('.map__pin:not(.map__pin--main)');
 
   var showAnnouncements = function (data) {
     document.querySelector('.map__pins').appendChild(window.pin.generateMapPins(data));
@@ -15,7 +16,7 @@
   };
 
   var onSuccess = function (data) {
-    window.defaultData = data;
+    window.fullData = data;
     showAnnouncements(data);
   };
 
@@ -73,7 +74,6 @@
   };
 
   window.form.adForm.addEventListener('submit', function (evt) {
-    var pins = map.querySelectorAll('.map__pin:not(.map__pin--main)');
     window.backend.save(new FormData(window.form.adForm), onSave, onError);
     evt.preventDefault();
     window.form.adForm.reset();
@@ -82,6 +82,20 @@
     }
     window.card.remove();
     disableMap();
+  });
+
+  var typeOfHouseChangeHandler = function () {
+    if (document.querySelector('.popup')) {
+      window.card.remove();
+    }
+    for (var i = 0; i < pins.length; i++) {
+      pins[i].remove();
+    }
+    showAnnouncements(window.filters.filterAll());
+  };
+
+  document.querySelector('#housing-type').addEventListener('change', function () {
+    typeOfHouseChangeHandler();
   });
 
   map.addEventListener('click', pinClickHandler);
