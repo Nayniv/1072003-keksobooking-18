@@ -80,7 +80,9 @@
     for (var i = 0; i < pins.length; i++) {
       pins[i].remove();
     }
-    window.card.remove();
+    if (document.querySelector('.popup')) {
+      window.card.remove();
+    }
     disableMap();
   });
 
