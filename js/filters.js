@@ -9,7 +9,7 @@
   };
 
   var filterAll = function () {
-    window.fullData.filter(function (item) {
+    return window.fullData.filter(function (item) {
       return getTypeOfHouse(item);
     }).slice(0, PINS_COUNT);
   };

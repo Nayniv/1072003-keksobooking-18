@@ -5,7 +5,6 @@
   var map = document.querySelector('.map');
   var main = document.querySelector('main');
   var mapIsActive = false;
-  var pins = map.querySelectorAll('.map__pin:not(.map__pin--main)');
 
   var showAnnouncements = function (data) {
     document.querySelector('.map__pins').appendChild(window.pin.generateMapPins(data));
@@ -74,6 +73,7 @@
   };
 
   window.form.adForm.addEventListener('submit', function (evt) {
+    var pins = document.querySelectorAll('.map__pin:not(.map__pin--main)');
     window.backend.save(new FormData(window.form.adForm), onSave, onError);
     evt.preventDefault();
     window.form.adForm.reset();
@@ -85,21 +85,21 @@
   });
 
   var typeOfHouseChangeHandler = function () {
+    var announcements = document.querySelectorAll('.map__pin:not(.map__pin--main)');
     if (document.querySelector('.popup')) {
       window.card.remove();
     }
-    for (var i = 0; i < pins.length; i++) {
-      pins[i].remove();
+    for (var i = 0; i < announcements.length; i++) {
+      announcements[i].remove();
     }
     showAnnouncements(window.filters.filterAll());
   };
 
+  map.addEventListener('click', pinClickHandler);
+  document.addEventListener('keydown', pinKeydownHandler);
   document.querySelector('#housing-type').addEventListener('change', function () {
     typeOfHouseChangeHandler();
   });
-
-  map.addEventListener('click', pinClickHandler);
-  document.addEventListener('keydown', pinKeydownHandler);
 
   disableMap();
 
