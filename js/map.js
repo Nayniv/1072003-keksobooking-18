@@ -86,7 +86,7 @@
     disableMap();
   });
 
-  var mapFiltersChangeHandler = function () {
+  var mapFiltersChangeHandler = window.debounce(function () {
     var announcements = document.querySelectorAll('.map__pin:not(.map__pin--main)');
     if (document.querySelector('.popup')) {
       window.card.remove();
@@ -95,7 +95,7 @@
       announcements[i].remove();
     }
     showAnnouncements(window.filters.filterAll());
-  };
+  });
 
   map.addEventListener('click', pinClickHandler);
   document.addEventListener('keydown', pinKeydownHandler);
