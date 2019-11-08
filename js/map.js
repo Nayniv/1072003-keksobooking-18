@@ -86,7 +86,7 @@
     disableMap();
   });
 
-  var typeOfHouseChangeHandler = function () {
+  var mapFiltersChangeHandler = function () {
     var announcements = document.querySelectorAll('.map__pin:not(.map__pin--main)');
     if (document.querySelector('.popup')) {
       window.card.remove();
@@ -99,8 +99,8 @@
 
   map.addEventListener('click', pinClickHandler);
   document.addEventListener('keydown', pinKeydownHandler);
-  document.querySelector('#housing-type').addEventListener('change', function () {
-    typeOfHouseChangeHandler();
+  mapFilters.addEventListener('change', function () {
+    mapFiltersChangeHandler();
   });
 
   disableMap();
