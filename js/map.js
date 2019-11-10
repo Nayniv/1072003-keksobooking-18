@@ -4,7 +4,13 @@
   var mapFilters = document.querySelector('.map__filters');
   var map = document.querySelector('.map');
   var main = document.querySelector('main');
+  var resetButton = document.querySelector('.ad-form__reset');
   var mapIsActive = false;
+  var PREVIEW_IMAGE_DEFAULT = 'img/muffin-grey.svg';
+  var avatarInput = document.querySelector('#avatar');
+  var avatarPreview = document.querySelector('.ad-form-header__preview').querySelector('img');
+  var imagesInput = document.querySelector('#images');
+  var imagesPreview = document.querySelector('.ad-form__photo');
 
   var showAnnouncements = function (data) {
     document.querySelector('.map__pins').appendChild(window.pin.generateMapPins(data));
@@ -73,16 +79,9 @@
   };
 
   window.form.adForm.addEventListener('submit', function (evt) {
-    var pins = document.querySelectorAll('.map__pin:not(.map__pin--main)');
     window.backend.save(new FormData(window.form.adForm), onSave, onError);
     evt.preventDefault();
-    window.form.adForm.reset();
-    for (var i = 0; i < pins.length; i++) {
-      pins[i].remove();
-    }
-    if (document.querySelector('.popup')) {
-      window.card.remove();
-    }
+    reset();
     disableMap();
   });
 
@@ -97,10 +96,41 @@
     showAnnouncements(window.filters.filterAll());
   });
 
+
+  var reset = function () {
+    var pins = document.querySelectorAll('.map__pin:not(.map__pin--main)');
+    window.form.adForm.reset();
+    mapFilters.reset();
+    resetPictures();
+    if (document.querySelector('.popup')) {
+      window.card.remove();
+    }
+    for (var i = 0; i < pins.length; i++) {
+      pins[i].remove();
+    }
+  };
+
   map.addEventListener('click', pinClickHandler);
   document.addEventListener('keydown', pinKeydownHandler);
   mapFilters.addEventListener('change', function () {
     mapFiltersChangeHandler();
+  });
+  resetButton.addEventListener('click', function () {
+    reset();
+    disableMap();
+  });
+
+  var resetPictures = function () {
+    avatarPreview.src = PREVIEW_IMAGE_DEFAULT;
+    window.fileUpload.remove(imagesPreview);
+  };
+
+  avatarInput.addEventListener('change', function () {
+    window.fileUpload.add(avatarInput, true, avatarPreview);
+  });
+
+  imagesInput.addEventListener('change', function () {
+    window.fileUpload.add(imagesInput, false, imagesPreview);
   });
 
   disableMap();
