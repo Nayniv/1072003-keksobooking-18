@@ -4,6 +4,7 @@
   var mapFilters = document.querySelector('.map__filters');
   var map = document.querySelector('.map');
   var main = document.querySelector('main');
+  var resetButton = document.querySelector('.ad-form__reset');
   var mapIsActive = false;
 
   var showAnnouncements = function (data) {
@@ -73,16 +74,9 @@
   };
 
   window.form.adForm.addEventListener('submit', function (evt) {
-    var pins = document.querySelectorAll('.map__pin:not(.map__pin--main)');
     window.backend.save(new FormData(window.form.adForm), onSave, onError);
     evt.preventDefault();
-    window.form.adForm.reset();
-    for (var i = 0; i < pins.length; i++) {
-      pins[i].remove();
-    }
-    if (document.querySelector('.popup')) {
-      window.card.remove();
-    }
+    reset();
     disableMap();
   });
 
@@ -97,10 +91,26 @@
     showAnnouncements(window.filters.filterAll());
   });
 
+  var reset = function () {
+    var pins = document.querySelectorAll('.map__pin:not(.map__pin--main)');
+    window.form.adForm.reset();
+    mapFilters.reset();
+    if (document.querySelector('.popup')) {
+      window.card.remove();
+    }
+    for (var i = 0; i < pins.length; i++) {
+      pins[i].remove();
+    }
+  };
+
   map.addEventListener('click', pinClickHandler);
   document.addEventListener('keydown', pinKeydownHandler);
   mapFilters.addEventListener('change', function () {
     mapFiltersChangeHandler();
+  });
+  resetButton.addEventListener('click', function () {
+    reset();
+    disableMap();
   });
 
   disableMap();
