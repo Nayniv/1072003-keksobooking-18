@@ -53,7 +53,7 @@
     for (var i = 0; i < announcements.length; i++) {
       var announcement = pinTemplate.cloneNode(true);
       var pin = announcement.querySelector('.map__pin');
-      pin.setAttribute('data-params', JSON.stringify(announcements[i]));
+      pin.dataset.dataParams = JSON.stringify(announcements[i]);
       fragment.appendChild(renderPins(announcement, announcements[i]));
     }
 
