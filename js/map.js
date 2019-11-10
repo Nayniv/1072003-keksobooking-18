@@ -16,6 +16,7 @@
 
   var onSuccess = function (data) {
     window.fullData = data;
+    mapFiltersChangeHandler();
     showAnnouncements(data);
   };
 
@@ -58,7 +59,7 @@
       }
 
       pin.classList.add('map__pin--active');
-      var params = pin.getAttribute('data-params');
+      var params = pin.dataset.dataParams;
       var data = JSON.parse(params);
       window.card.show(data);
     }
