@@ -67,7 +67,7 @@
 
   var pinKeydownHandler = function (evt) {
     if (evt.keyCode === window.util.ENTER_KEYCODE) {
-      pinClickHandler();
+      pinClickHandler(evt);
 
       document.removeEventListener('keydown', pinKeydownHandler);
     }
