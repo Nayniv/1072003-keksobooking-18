@@ -6,6 +6,11 @@
   var main = document.querySelector('main');
   var resetButton = document.querySelector('.ad-form__reset');
   var mapIsActive = false;
+  var PREVIEW_IMAGE_DEFAULT = 'img/muffin-grey.svg';
+  var avatarInput = document.querySelector('#avatar');
+  var avatarPreview = document.querySelector('.ad-form-header__preview').querySelector('img');
+  var imagesInput = document.querySelector('#images');
+  var imagesPreview = document.querySelector('.ad-form__photo');
 
   var showAnnouncements = function (data) {
     document.querySelector('.map__pins').appendChild(window.pin.generateMapPins(data));
@@ -91,10 +96,12 @@
     showAnnouncements(window.filters.filterAll());
   });
 
+
   var reset = function () {
     var pins = document.querySelectorAll('.map__pin:not(.map__pin--main)');
     window.form.adForm.reset();
     mapFilters.reset();
+    resetPictures();
     if (document.querySelector('.popup')) {
       window.card.remove();
     }
@@ -111,6 +118,19 @@
   resetButton.addEventListener('click', function () {
     reset();
     disableMap();
+  });
+
+  var resetPictures = function () {
+    avatarPreview.src = PREVIEW_IMAGE_DEFAULT;
+    window.fileUpload.remove(imagesInput);
+  };
+
+  avatarInput.addEventListener('change', function () {
+    window.fileUpload.add(avatarInput, true, avatarPreview);
+  });
+
+  imagesInput.addEventListener('change', function () {
+    window.fileUpload.add(imagesInput, false, imagesPreview);
   });
 
   disableMap();
