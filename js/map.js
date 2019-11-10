@@ -122,7 +122,7 @@
 
   var resetPictures = function () {
     avatarPreview.src = PREVIEW_IMAGE_DEFAULT;
-    window.fileUpload.remove(imagesInput);
+    window.fileUpload.remove(imagesPreview);
   };
 
   avatarInput.addEventListener('change', function () {

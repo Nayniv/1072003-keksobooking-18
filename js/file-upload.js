@@ -2,8 +2,7 @@
 
 (function () {
   var FILE_EXTENSIONS = ['gif', 'jpg', 'jpeg', 'png'];
-  var PREVIEW_WIDTH = 40;
-  var PREVIEW_HEIGHT = 44;
+  var PREVIEW_WIDTH = 70;
 
   var checkExtension = function (fileName) {
     return FILE_EXTENSIONS.some(function (extension) {
@@ -27,7 +26,6 @@
             var newPreview = document.createElement('img');
             newPreview.src = reader.result;
             newPreview.width = PREVIEW_WIDTH;
-            newPreview.height = PREVIEW_HEIGHT;
             newPreview.style = 'object-fit: cover;';
             newPreview.alt = 'Превью';
             preview.appendChild(newPreview);
