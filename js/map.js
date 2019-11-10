@@ -16,8 +16,7 @@
 
   var onSuccess = function (data) {
     window.fullData = data;
-    mapFiltersChangeHandler();
-    showAnnouncements(data);
+    showAnnouncements(window.filters.filterAll());
   };
 
   var onSave = function () {
