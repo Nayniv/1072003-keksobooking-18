@@ -1,14 +1,6 @@
 'use strict';
 
 (function () {
-  var adForm = document.querySelector('.ad-form');
-  var capacity = adForm.querySelector('#capacity');
-  var roomNumber = adForm.querySelector('#room_number');
-  var price = adForm.querySelector('#price');
-  var typeHousing = adForm.querySelector('#type');
-  var typeHousingValue = typeHousing.options[typeHousing.selectedIndex].value;
-  var timeIn = adForm.querySelector('#timein');
-  var timeOut = adForm.querySelector('#timeout');
   var ERROR_MESSAGES = {
     rooms1: '1 комната — для 1 гостя',
     rooms2: '2 комнаты — для 2 гостей или для 1 гостя',
@@ -20,22 +12,30 @@
     house: '5000',
     palace: '10000'
   };
+  var adForm = document.querySelector('.ad-form');
+  var capacity = adForm.querySelector('#capacity');
+  var roomNumber = adForm.querySelector('#room_number');
+  var price = adForm.querySelector('#price');
+  var typeHousing = adForm.querySelector('#type');
+  var typeHousingValue = typeHousing.options[typeHousing.selectedIndex].value;
+  var timeIn = adForm.querySelector('#timein');
+  var timeOut = adForm.querySelector('#timeout');
 
-  var stateFormField = function (element, isDisabled) {
-    var fieldForm = adForm.querySelectorAll('fieldset');
+  var stateField = function (element, isDisabled) {
+    var fieldForm = element.querySelectorAll('fieldset, select');
 
-    for (var i = 0; i < fieldForm.length; i++) {
-      fieldForm[i].disabled = isDisabled;
-    }
+    fieldForm.forEach(function (field) {
+      field.disabled = isDisabled;
+    });
   };
 
   var setAddress = function () {
-    var coordinate = window.pin.getPinMainCoordinate();
+    var coordinate = window.pin.getMainCoordinate();
     var address = document.querySelector('#address');
     address.value = coordinate.x + ', ' + coordinate.y;
   };
 
-  var validRoomNumber = function () {
+  var checkRoomNumberHandler = function () {
     if (capacity.value === '0' && roomNumber.value !== '100') {
       capacity.setCustomValidity('Выберите количество гостей');
     } else if (roomNumber.value === '100' && capacity.value !== '0') {
@@ -52,12 +52,12 @@
     price.placeholder = MIN_PRICES[elementValue];
   };
 
-  var validPriceHousing = function (evt) {
+  var checkPriceHousingHandler = function (evt) {
     var housingValue = evt.target.value;
     setMinPrice(housingValue);
   };
 
-  var validTimesField = function (evt) {
+  var checkTimesFieldHandler = function (evt) {
     var timeValue = evt.target.value;
     timeIn.value = timeValue;
     timeOut.value = timeValue;
@@ -65,19 +65,19 @@
 
   setMinPrice(typeHousingValue);
 
-  roomNumber.addEventListener('change', validRoomNumber);
+  roomNumber.addEventListener('change', checkRoomNumberHandler);
 
-  capacity.addEventListener('change', validRoomNumber);
+  capacity.addEventListener('change', checkRoomNumberHandler);
 
-  typeHousing.addEventListener('change', validPriceHousing);
+  typeHousing.addEventListener('change', checkPriceHousingHandler);
 
-  timeIn.addEventListener('change', validTimesField);
+  timeIn.addEventListener('change', checkTimesFieldHandler);
 
-  timeOut.addEventListener('change', validTimesField);
+  timeOut.addEventListener('change', checkTimesFieldHandler);
 
   window.form = {
-    stateFormField: stateFormField,
-    adForm: adForm,
+    stateField: stateField,
+    ad: adForm,
     setAddress: setAddress
   };
 })();

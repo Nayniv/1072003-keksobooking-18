@@ -39,8 +39,8 @@
   };
 
   var checkFeatures = function (item) {
-    var checkedFeature = getCheckedFeatures();
-    return checkedFeature.every(function (feature) {
+    var checkedFeatures = getCheckedFeatures();
+    return checkedFeatures.every(function (feature) {
       return item.offer.features.indexOf(feature) !== -1;
     });
   };

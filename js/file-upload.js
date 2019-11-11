@@ -37,10 +37,10 @@
     }
   };
 
-  var removeImages = function (сontainer) {
-    var images = сontainer.querySelectorAll('img');
+  var removeImages = function (container) {
+    var images = container.querySelectorAll('img');
     for (var i = 0; i < images.length; i++) {
-      сontainer.removeChild(images[i]);
+      container.removeChild(images[i]);
     }
   };
 

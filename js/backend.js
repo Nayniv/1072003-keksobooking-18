@@ -3,14 +3,14 @@
 (function () {
   var URL = 'https://js.dump.academy/keksobooking';
   var DATA_URL = URL + '/data';
-  var STATUS_SUCCES = 200;
+  var SUCCESS_STATUS = 200;
 
   var requestGenerator = function (onLoad, onError) {
     var xhr = new XMLHttpRequest();
     xhr.responseType = 'json';
 
     xhr.addEventListener('load', function () {
-      if (xhr.status === STATUS_SUCCES) {
+      if (xhr.status === SUCCESS_STATUS) {
         onLoad(xhr.response);
       } else {
         onError('Статус ответа: ' + xhr.status + ' ' + xhr.statusText);

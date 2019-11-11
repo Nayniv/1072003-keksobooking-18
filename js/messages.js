@@ -34,7 +34,7 @@
     return error;
   };
 
-  var showSucces = function () {
+  var showSuccess = function () {
     var success = successTemplate.cloneNode(true);
 
     document.addEventListener('click', successClickHandler);
@@ -58,7 +58,7 @@
 
   window.messages = {
     showError: showError,
-    showSucces: showSucces,
+    showSuccess: showSuccess,
     close: close
   };
 })();

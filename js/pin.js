@@ -1,14 +1,14 @@
 'use strict';
 
 (function () {
-  var pinTemplate = document.querySelector('#pin').content;
-  var pinMain = document.querySelector('.map__pin--main');
-  var map = document.querySelector('.map');
   var QUILL_HEIGHT = 22;
   var PIN_HEIGHT = 87;
   var PIN_HALF_WIDTH = 33;
   var Y_COORD_MIN = 130;
-  var Y_COORD_MAX = 630;
+  var Y_COORD_MAX = 630 - PIN_HEIGHT;
+  var pinTemplate = document.querySelector('#pin').content;
+  var pinMain = document.querySelector('.map__pin--main');
+  var map = document.querySelector('.map');
   var mapRect = map.getBoundingClientRect();
   var limitsMap = {
     top: Y_COORD_MIN - PIN_HEIGHT,
@@ -47,20 +47,20 @@
     return pinElement;
   };
 
-  var generateMapPins = function (announcements) {
+  var generateAnnouncements = function (announcements) {
     var fragment = document.createDocumentFragment();
 
-    for (var i = 0; i < announcements.length; i++) {
+    announcements.forEach(function (elements) {
       var announcement = pinTemplate.cloneNode(true);
       var pin = announcement.querySelector('.map__pin');
-      pin.dataset.dataParams = JSON.stringify(announcements[i]);
-      fragment.appendChild(renderPins(announcement, announcements[i]));
-    }
+      pin.dataset.dataParams = JSON.stringify(elements);
+      fragment.appendChild(renderPins(announcement, elements));
+    });
 
     return fragment;
   };
 
-  var getPinMainCoordinate = function () {
+  var getMainCoordinate = function () {
     var rect = pinMain.getBoundingClientRect();
     var pinX = rect.width / 2;
     var pinY = rect.height + QUILL_HEIGHT;
@@ -142,7 +142,7 @@
   });
 
   window.pin = {
-    generateMapPins: generateMapPins,
-    getPinMainCoordinate: getPinMainCoordinate,
+    generateAnnouncements: generateAnnouncements,
+    getMainCoordinate: getMainCoordinate,
   };
 })();
